@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:plcf="http://www.powerlogic.com.br/plcf">
+		<ul>
+			<li>
+				<a>
+					<span class="ico iLeiautepadrao"/>
+					<label jsfc="plcf:titulo" tituloChave="app.m.inicial">Principal</label>
+				</a>
+				<ul class="ui-state-hover">
+					<li>
+						<a href="#{request.contextPath}/f/n/trackcon">
+							<label jsfc="plcf:titulo" tituloChave="menu.track.titulo">Track</label>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<ui:include src="/WEB-INF/fcls-plc/geralMenuAjuda.xhtml"/>
+			<ui:include src="/WEB-INF/fcls-plc/geralMenuPrefLang.xhtml"/>
+			<ui:include src="/WEB-INF/fcls-plc/geralMenuAreaTecnica.xhtml"/>
+			<ui:include src="/WEB-INF/fcls-plc/geralMenuDinamico.xhtml"/>
+			<ui:include src="/WEB-INF/fcls-plc/geralMenuThemeSwitcher.xhtml"/>
+		</ul>
+	</ui:composition>

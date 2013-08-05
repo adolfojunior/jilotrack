@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee  http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+
+	<description>jCompany Tag-File Utilitários - Funções de uso em Tag-Files</description>
+	<display-name>jCompany Tag-File Utilitários</display-name>
+	<tlib-version>3.2</tlib-version>
+	<short-name>plcUtil</short-name>
+	<uri>http://www.powerlogic.com.br/plct</uri>
+	
+	<function>
+		<name>obrigatorio</name>
+		<function-class>com.powerlogic.jcompany.controller.tagfile.PlcTagFileUtil</function-class>
+		<function-signature>Boolean
+			obrigatorio(java.lang.Class,java.lang.Object,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>riaJavaScript</name>
+		<function-class>com.powerlogic.jcompany.controller.tagfile.PlcTagFileUtil</function-class>
+		<function-signature>java.lang.String
+			processRiaJavaScript(java.lang.String,java.lang.String,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>unobtrusiveJavaScript</name>
+		<function-class>com.powerlogic.jcompany.controller.tagfile.PlcTagFileUtil</function-class>
+		<function-signature>java.lang.String
+			unobtrusiveJavaScript(java.lang.String,java.lang.String,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>formato</name>
+		<function-class>com.powerlogic.jcompany.controller.tagfile.PlcTagFileUtil</function-class>
+		<function-signature>com.powerlogic.jcompany.dominio.valida.PlcFormato.Formato
+			formato(java.lang.Class,java.lang.Object,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>tamanhoMaximo</name>
+		<function-class>com.powerlogic.jcompany.controller.tagfile.PlcTagFileUtil</function-class>
+		<function-signature>Integer
+			tamanhoMaximo(java.lang.Class,java.lang.Object,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>propReferenciaDesprezar</name>
+		<function-class>com.powerlogic.jcompany.controller.tagfile.PlcTagFileUtil</function-class>
+		<function-signature>String propReferenciaDesprezar(java.lang.Class)</function-signature>
+	</function>
+	<function>
+		<name>msgsPorCor</name>
+		<function-class>com.powerlogic.jcompany.controller.tagfile.PlcTagFileUtil</function-class>
+		<function-signature>java.util.List
+			msgsPorCor(javax.servlet.http.HttpServletRequest,java.lang.String)</function-signature>
+	</function>
+</taglib>

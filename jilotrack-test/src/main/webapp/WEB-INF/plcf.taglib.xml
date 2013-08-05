@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  																													
+	    			       Jaguar-jCompany Developer Suite.																		
+			    		        Powerlogic 2010-2014.
+			    		    
+		Please read licensing information in your installation directory.Contact Powerlogic for more 
+		information or contribute with this project: suporte@powerlogic.com.br - www.powerlogic.com.br																								
+-->
+<facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd" version="2.0">
+
+  
+  <namespace>http://www.powerlogic.com.br/plcf</namespace>
+
+  <tag>
+    <tag-name>exibe</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcTitulo</component-type>
+      <renderer-type>com.powerlogic.jsf.Titulo</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcShowHandler</handler-class>
+    </component>
+  </tag>
+
+  <tag>
+    <tag-name>oid</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcOid</component-type>
+      <renderer-type>com.powerlogic.jsf.Oid</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcOidHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>titulo</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcTitulo</component-type>
+      <renderer-type>com.powerlogic.jsf.Titulo</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcTitleHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>tituloExclusao</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcTitulo</component-type>
+      <renderer-type>com.powerlogic.jsf.Titulo</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcTitleExclusionHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>escondido</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcEscondido</component-type>
+      <renderer-type>com.powerlogic.jsf.Escondido</renderer-type>
+    </component>
+  </tag>
+
+   <tag>
+    <tag-name>texto</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcTexto</component-type>
+      <renderer-type>com.powerlogic.jsf.Texto</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcTextHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>numerico</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcNumerico</component-type>
+      <renderer-type>com.powerlogic.jsf.Numerico</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcNumericHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>area</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcArea</component-type>
+      <renderer-type>com.powerlogic.jsf.Area</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcAreaHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>data</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcData</component-type>
+      <renderer-type>com.powerlogic.jsf.Data</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcDateHandler</handler-class>
+    </component>
+  </tag>
+  
+   <tag>
+    <tag-name>vinculado</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcVinculado</component-type>
+      <renderer-type>com.powerlogic.jsf.Vinculado</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcAggregateHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>comboDinamico</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcComboDinamico</component-type>
+      <renderer-type>com.powerlogic.jsf.ComboDinamico</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcDynamicComboHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>comboEstatico</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcComboDinamico</component-type>
+      <renderer-type>com.powerlogic.jsf.ComboDinamico</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcDynamicComboHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>radio</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcRadio</component-type>
+      <renderer-type>com.powerlogic.jsf.Radio</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcRadioHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>botaoAcao</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcBotao</component-type>
+      <renderer-type>com.powerlogic.jsf.Botao</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcButtonHandler</handler-class>
+    </component>
+  </tag>
+  
+   <tag>
+    <tag-name>linkInteligente</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcLinkInteligente</component-type>
+      <renderer-type>com.powerlogic.jsf.LinkInteligente</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcSmartLinkHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>botaoAcaoDownload</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcBotaoDownload</component-type>
+      <renderer-type>com.powerlogic.jsf.Botao</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcDownloadButtonHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>arquivoAnexado</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcArquivo</component-type>
+      <renderer-type>com.powerlogic.jsf.Arquivo</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcInputFileHandler</handler-class>
+    </component>
+  </tag>
+  
+   <tag>
+    <tag-name>caixaMarcacao</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcCaixaMarcacao</component-type>
+      <renderer-type>com.powerlogic.jsf.CaixaMarcacao</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcSelectionBoxHandler</handler-class>
+    </component>
+  </tag>
+  
+   <tag>
+    <tag-name>caixaExclusao</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcCaixaExclusao</component-type>
+      <renderer-type>com.powerlogic.jsf.CaixaMarcacao</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcExclusionBoxHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>linha</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcLinha</component-type>
+      <renderer-type>com.powerlogic.jsf.Linha</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcLineHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>linhaSelecao</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcLinhaSelecao</component-type>
+      <renderer-type>com.powerlogic.jsf.LinhaSelecao</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcLineSelectionHandler</handler-class>
+    </component>
+  </tag>
+  
+  <tag>
+    <tag-name>celula</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcCelula</component-type>
+      <renderer-type>com.powerlogic.jsf.Celula</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcCellHandler</handler-class>
+    </component>
+  </tag>
+  
+   <tag>
+    <tag-name>panelFormLayout</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcPanelFormLayout</component-type>
+      <renderer-type>com.powerlogic.jsf.PanelFormLayout</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcPanelFormLayoutHandler</handler-class>
+    </component>
+  </tag>
+  
+  
+  <tag>
+    <tag-name>tabela</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcTabela</component-type>
+      <renderer-type>com.powerlogic.jsf.Tabela</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcTableHandler</handler-class>
+    </component>
+  </tag>
+
+ <tag>
+    <tag-name>validacao</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcValidacao</component-type>
+      <renderer-type>com.powerlogic.jsf.Validacao</renderer-type>
+    </component>
+  </tag> 
+ 
+  <tag>
+    <tag-name>selectPreferencia</tag-name>
+    <component>
+      <component-type>com.powerlogic.jsf.componente.PlcSelectPreferencia</component-type>
+      <renderer-type>com.powerlogic.jsf.SelectPreferencia</renderer-type>
+      <handler-class>com.powerlogic.jcompany.view.jsf.handler.PlcSelectPreferenceHandler</handler-class>
+    </component>
+  </tag>
+ 
+ 
+</facelet-taglib>

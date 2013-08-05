@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="trackarg.titulo"> 
+						<plcf:linha>
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.type']}"/>  
+								<plcf:numerico id="type" value="#{trackconArg.type}" ajudaChave="ajuda.type" tamanho="5"/> 
+							</plcf:celula> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.value']}"/>  
+								<plcf:texto id="value" value="#{trackconArg.value}" ajudaChave="ajuda.value"/> 
+							</plcf:celula> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.beginTime']}"/>  
+								<plcf:numerico id="beginTime" value="#{trackconArg.beginTime}" ajudaChave="ajuda.beginTime" tamanho="5"/> 
+							</plcf:celula> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.endTime']}"/>  
+								<plcf:numerico id="endTime" value="#{trackconArg.endTime}" ajudaChave="ajuda.endTime" tamanho="5"/> 
+							</plcf:celula> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.parent']}"/>  
+								<plcf:numerico id="parent" value="#{trackconArg.parent}" ajudaChave="ajuda.parent" tamanho="5"/> 
+							</plcf:celula> 
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="plc-form-basico-sel"> 
+					<script type="text/javascript">//<![CDATA[
+					jQuery(function(){plc.criaSelecaoJqGrid('plc-grid','plc-grid-navegador',{
+						evento:'${param.evento}',
+						modoJanelaPlc:'${param.modoJanelaPlc}',
+						rowNum:'20',
+						nomeLogica:'trackcon',
+						propAgregada:'track',
+						jqGrid:{
+							caption: '#{msg['track.titulo']}',
+							colNames: [
+								'#{msg['label.id']}',
+								'#{msg['label.type']}',
+								'#{msg['label.value']}',
+								'#{msg['label.beginTime']}',
+								'#{msg['label.endTime']}',
+								'#{msg['label.parent']}'
+							],
+							colModel: [
+								{name:'id',index:'id'},
+								{name:'type',index:'type'},
+								{name:'value',index:'value'},
+								{name:'beginTime',index:'beginTime'},
+								{name:'endTime',index:'endTime'},
+								{name:'parent',index:'parent'}
+							]
+						},
+						aoSelecionar:function(id){}
+					});});
+					//]]>
+					</script>  
+					<table id="plc-grid" width="100%" class="scroll" cellpadding="0" cellspacing="0"/>  
+					<div id="plc-grid-navegador" class="scroll" style="text-align:center;"/> 
+				</div> 
+			</div> 
+		</ui:define> 
+	</ui:composition> 
+</html>

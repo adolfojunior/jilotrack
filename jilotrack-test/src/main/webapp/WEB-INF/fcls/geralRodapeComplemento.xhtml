@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:tr="http://myfaces.apache.org/trinidad"
+	  xmlns:trh="http://myfaces.apache.org/trinidad/html"
+	  xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	  xmlns:c="http://java.sun.com/jstl/core">
+<body>
+<div id="plc-rodape" class="ui-widget ui-widget-header plc-rodape">
+	<ui:composition>		
+		<div id="plc-rodape-complemento" class="plc-rodape-complemento" >
+			<div class="plc-rodape-complemento-empresa">
+				#{metadados['nomeEmpresa']} - #{metadados['nomeAplicacao']} <br/> 
+				#{msgPlc['jcompany.rodape.copyright']}
+			</div>
+			<c:if test="#{initParam['modoExecucao']!='D'}">
+				<div class="plc-rodape-complemento-memoria" >
+					<div class="ico iDiagnostico"></div>
+					Total Mem.: #{plcComponenteVisual.totalMemory} Bytes <br />
+					Livre Mem.: #{plcComponenteVisual.freeMemory} Bytes
+				</div>
+			</c:if>
+		</div>	
+	</ui:composition>
+</div>	
+</body>	
+</html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<head>
+    <link rel="StyleSheet" href="#{request.contextPath}/res-plc/css/jquery/ui/themes/ui.all.css" type="text/css" charset="UTF-8" />
+    <link rel="StyleSheet" href="#{request.contextPath}/res-plc/css/itunes/jquery/jquery-ui-1.7.custom.css" type="text/css" charset="UTF-8" />	
+    
+	</head>
+<body>
+<link rel="StyleSheet" href="#{request.contextPath}/res-plc/css/plc.geral.css" type="text/css" charset="UTF-8" />
+Exemplo de página inicial para customização. Por default o jCompany sugere uma página inicial com botões tipo quiosque para principais transações
+e explicações sobre como se obter ajuda para a aplicação. Esta pagina é um exemplo simples para customização, sem I18n.
+<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml">
+<ui:define name="plc-corpo">
+	<style>
+		plc-botao{outline: 0;   margin:0 4px 0 0;   padding: .4em 1em;   text-decoration:none !important;   cursor:pointer;   position: relative;   text-align: center;   zoom: 1;}
+		div.home {width:100%;height:450px;font-size:80%;}
+		div.home-coluna-esq {float:left;width:35%;padding:2px;margin-left:10px;}
+		div.home-coluna-dir {float:left;width:60%;padding:2px;}
+		a.plc-botao-quiosque{outline: 0;   margin:4px 4px 0 0;   padding: .4em 1em;   text-decoration:none !important; 
+		     width: 80%;height:32px;font: bold 180% Arial, Tahoma, sans-serif;text-decoration: none;display: block;}
+		div.home-titulo{font-weight:bold;font-size: 160%;margin:10px 0 10px 0;}
+		div.home-subtitulo{margin-bottom:10px;}
+		div.home-subtopico{float:left;margin-top:10px;}
+		div.home-subtopico-esq{width: 20px;vertical-align:middle;float:left;text-align:right;}
+		div.home-subtopico-dir{margin-left:25px;padding-left:5px;border-left: 2px solid rgb(153, 153, 153);min-width:400px;}
+		div.home-subtitulo-rodape{margin:200px 0 10px 20px;}
+		div.home-browser-esq{float:left;margin-left:25px;width:300px;padding:2px;}
+		div.home-browser-dir{float:left;padding:2px;}
+		div.home-subtitulo-rodape{margin:200px 0 10px 20px;}
+		*+html div.home-subtitulo-rodape{margin:100px 0 10px 20px !important;} /*variação para IE 7 somente*/
+		</style>
+
+			<ui:insert name="plc-corpo-mensagem">
+				<ui:include src="/WEB-INF/fcls-plc/geralMensagemPlc.xhtml" />
+			</ui:insert>
+<div class="home">
+	<div class="home-coluna-esq">
+		<div class="home-titulo">Operações Frequentes</div>
+		<div class="home-botao"> 
+			<a href="#{request.contextPath}/f/inicial.xhtml" class="ui-state-default ui-corner-all plc-botao-quiosque">
+			<div><img class="ui-state-default plc-imagem" style="border: none;" src="#{request.contextPath}/res/midia/home-quiosque-home.png"/></div><div>Home</div></a>
+			<a href="#" onclick="document.getElementById('plc-acao-desconecta').click();" class="ui-state-default ui-corner-all plc-botao-quiosque">
+			<div><img class="ui-state-default plc-imagem" style="border: none;" src="#{request.contextPath}/res/midia/home-quiosque-fim.png"></img></div><div>Sair</div></a> 
+		</div>
+	</div>
+	<div class="home-coluna-dir">
+		<div class="home-titulo">Demonstração jCompany</div>
+		<div class="home-subtitulo">Esta aplicação reúne uma série de conceitos e padrões de implementação Java EE 6 inovadores. Para seu melhor entendimento, sugerimos que seja seguido o roteiro abaixo: 
+		</div>
+		<div class="home-subtopico">
+			<div class="home-subtopico-esq">1</div>
+			<div class="home-subtopico-dir">Consulte a Ajuda On-Line do Eclipse ou clique <a href="http://www.powerlogic.com.br/powerportal/ecp/comunidade.do?app=comunidade_jcompany" target="new">aqui</a> para uma introdução geral sobre o jCompany Developer Suite e frameworks Open-Source de base utilizados para construir esta aplicação
+			</div>
+		</div>
+		<div class="home-subtopico">
+			<div class="home-subtopico-esq">2</div>
+			<div class="home-subtopico-dir">Clique nos links a seguir para consultar documentação sobre algumas APIs chave do Java EE 6, utilizadas nesta aplicação: 
+			      CDI 1.0 (<a href="http://www.powerlogic.com.br/powerportal/ecp/comunidade.do?app=comunidade_jcompany" target="new">JSR 299</a>, 
+			      <a href="http://seamframework.org/Weld" target="new">JBoss Weld 1.0</a>);
+			      Bean Validation 1.0 (<a href="http://jcp.org/en/jsr/detail?id=303" target="new">JSR 303</a>, 
+			       <a href="http://www.hibernate.org/subprojects/validator.html" target="new">Hibernate Validator 4.0</a>);
+			      JPA 2.0  (<a href="http://jcp.org/en/jsr/detail?id=317" target="new">JSR 317</a>,
+			       <a href="http://in.relation.to/Bloggers/Hibernate351Final" target="new">Hibernate Core 3.5.1</a>);
+			      JSF 2.0 (<a href="http://jcp.org/en/jsr/detail?id=314" target="new">JSR 314</a>,
+			       <a href="http://myfaces.apache.org/trinidad/index.html" target="new">Apache Trinidad Alpha2</a>);
+		     	  JAX-RS 1.0 (<a href="(http://jcp.org/en/jsr/detail?id=311" target="new">JSR 311</a>,
+			       <a href="http://seamframework.org/Weld" target="new">JBoss Weld 1.0</a>);
+		     	  JAX-WS 2.0 (<a href="http://jcp.org/en/jsr/detail?id=224" target="new">JSR 224</a>);
+			</div>
+		</div>
+		<div class="home-subtopico">
+			<div class="home-subtopico-esq">3</div>
+			<div class="home-subtopico-dir">
+				Abra os códigos fontes e estude-os. Esta aplicação utiliza basicamente código Java para Entidades de Domínio e regras de negócio. Todos os demais artefatos são generalizados
+				via programação OO ou gerados (artefatos "não Java" como XHTML e rótulos)
+			</div>
+		</div>
+		<div class="home-subtopico">
+			<div class="home-subtopico-esq">4</div>
+			<div class="home-subtopico-dir">
+				Se, ainda assim, persistirem dúvidas, contate a Powerlogic utilizando o email <a href="mailto:suporte@powerlogic.com.br" target="new">suporte@powerlogic.com.br</a>. Descreva sua
+				dúvida, informando versão e dados para contato.
+			</div>
+			<br /><hr />
+		</div>
+		<div class="home-subtitulo-rodape">
+			Melhor visualização através dos navegadores	abaixo
+		</div>
+		<div>
+			<div class="home-browser-esq" >
+				<a href="http://www.microsoft.com/downloads/Search.aspx?displaylang=pt-br">
+					<img style="border: 0pt none ; margin: 2px; vertical-align: middle; width: 32px;"
+					alt="Clique aqui para baixar este Navegador"
+					src="#{request.contextPath}/res/midia/home-ie.png" />
+				</a>
+				<br/>Microsoft Internet Explorer 7.0 ou superior
+			</div>
+			<div class="home-browser-dir">
+				<a href="http://www.mozilla.com/en-US/firefox/"> 
+					<img style="border: 0pt none ; margin: 2px; vertical-align: middle; width: 32px;" 
+					alt="Clique aqui para baixar este Navegador"
+					src="#{request.contextPath}/res/midia/home-firefox.png" />
+				</a>
+				<br/>Mozilla Firefox 2 ou superior
+			</div>
+		</div>
+	</div>
+</div>
+</ui:define>
+</ui:composition>	
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Context displayName="jilotracktest" docBase="jilotracktest"
+	path="jilotracktest" privileged="true" swallowOutput="off">
+
+	<Resource name="jdbc/jilotracktest" type="javax.sql.DataSource"
+		driverClassName="org.h2.Driver" url="jdbc:h2:tcp://127.0.0.1:9092/jilotrack"
+		username="SA" password="" maxActive="50" maxWait="-1" maxIdle="10"
+		removeAbandoned="true" logAbandoned="true" />
+
+	<!-- JCDI / Weld (RI) -->
+	<Resource name="BeanManager" auth="Container"
+		type="javax.enterprise.inject.spi.BeanManager" factory="org.jboss.weld.resources.ManagerObjectFactory" />
+
+</Context>
+

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  																													
+	    			       Jaguar-jCompany Developer Suite.																		
+			    		        Powerlogic 2010-2014.
+			    		    
+		Please read licensing information in your installation directory.Contact Powerlogic for more 
+		information or contribute with this project: suporte@powerlogic.com.br - www.powerlogic.com.br																								
+-->
+<facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd" version="2.0">
+
+	<namespace>http://www.powerlogic.com.br/plct</namespace>
+
+	<tag>
+		<tag-name>ajudar</tag-name>
+		<source>tags/plc/ajudar.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>arquivoAnexado</tag-name>
+		<source>tags/plc/arquivoAnexado.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>arquivoMultiploAnexado</tag-name>
+		<source>tags/plc/arquivoMultiploAnexado.xhtml</source>
+	</tag>
+	<tag>
+    	<tag-name>imprimir</tag-name>
+    	<source>tags/plc/imprimir.xhtml</source>
+  	</tag>
+  	<tag>
+    	<tag-name>imprimirPainel</tag-name>
+    	<source>tags/plc/imprimirPainel.xhtml</source>
+  	</tag>
+  	
+  	<tag>
+    	<tag-name>subDetalhe</tag-name>
+    	<source>tags/plc/subDetalhe.xhtml</source>
+  	</tag>
+
+	<tag>
+    	<tag-name>paginacaoDetalhe</tag-name>
+    	<source>tags/plc/paginacaoDetalhe.xhtml</source>
+  	</tag>
+  	
+  	<tag>
+    	<tag-name>logFimDocumento</tag-name>
+    	<source>tags/plc/logFimDocumento.xhtml</source>
+  	</tag>
+ 
+	<function>
+		<function-name>cacheService</function-name>
+		<function-class>com.powerlogic.jcompany.controller.util.PlcCacheUtil</function-class>
+		<function-signature>java.lang.Object get(java.lang.Object)</function-signature>
+	</function>
+	
+	<function>
+		<function-name>limpaCacheErroFatalInicializacao</function-name>
+		<function-class>com.powerlogic.jcompany.controller.util.PlcCacheUtil</function-class>
+		<function-signature>void cleanInitFatalError()</function-signature>
+	</function>
+	
+	<function>
+		<function-name>exploradorUsa</function-name>
+		<function-class>com.powerlogic.jcompany.commons.util.PlcAnnotationUtil</function-class>
+		<function-signature>boolean useTreeView(java.lang.String)</function-signature>
+	</function>
+	
+	<function>
+		<function-name>entidadeTitulo</function-name>
+		<function-class>com.powerlogic.jcompany.commons.util.PlcAnnotationUtil</function-class>
+		<function-signature>java.lang.String getEntityTitle(java.lang.String, java.lang.Class)</function-signature>
+	</function>
+	
+	<!-- Methods Execute -->
+	
+	<function>
+		<function-name>exec</function-name>
+		<function-class>com.powerlogic.jcompany.view.jsf.util.PlcExecuteUtil</function-class>
+		<function-signature>java.lang.Object execute (java.lang.Object, java.lang.String)</function-signature>
+	</function>
+	
+	<function>
+		<function-name>execOneArg</function-name>
+		<function-class>com.powerlogic.jcompany.view.jsf.util.PlcExecuteUtil</function-class>
+		<function-signature>java.lang.Object execute (java.lang.Object, java.lang.String, java.lang.Object)</function-signature>
+	</function>
+	
+	<function>
+		<function-name>execTwoArgs</function-name>
+		<function-class>com.powerlogic.jcompany.view.jsf.util.PlcExecuteUtil</function-class>
+		<function-signature>java.lang.Object execute (java.lang.Object, java.lang.String, java.lang.Object, java.lang.Object)</function-signature>
+	</function>
+	
+	<function>
+		<function-name>execTreeArgs</function-name>
+		<function-class>com.powerlogic.jcompany.view.jsf.util.PlcExecuteUtil</function-class>
+		<function-signature>java.lang.Object execute (java.lang.Object, java.lang.String, java.lang.Object, java.lang.Object, java.lang.Object)</function-signature>
+	</function>
+	
+	<function>
+		<function-name>execOneArgOneType</function-name>
+		<function-class>com.powerlogic.jcompany.view.jsf.util.PlcExecuteUtil</function-class>
+		<function-signature>java.lang.Object execute (java.lang.Object, java.lang.String, java.lang.Object, java.lang.String)</function-signature>
+	</function>
+	
+		
+	<function>
+		<function-name>createEntityInstance</function-name>
+		<function-class>com.powerlogic.jcompany.view.jsf.util.PlcExecuteUtil</function-class>
+		<function-signature>com.powerlogic.jcompany.config.metamodel.PlcEntityInstance createEntityInstance (java.lang.Object)</function-signature>
+	</function>
+	<!-- 
+	<function>
+		<function-name>execute</function-name>
+		<function-class>com.powerlogic.jcompany.view.jsf.helper.PlcBeanUtil</function-class>
+		<function-signature>java.lang.Object execute (java.lang.Object, java.lang.String)</function-signature>
+	</function>
+	 -->
+</facelet-taglib>

@@ -1,0 +1,572 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Jilotrack</title>
+
+<!-- dark-hive, flick, ui-darkness, vader, bootstrap -->
+
+<link href="css/dark-hive/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.js"></script>
+<script src="js/jquery-cookie.js"></script>
+<script src="js/json2.js"></script>
+
+<style type="text/css">
+
+body {
+	color: white;
+	background-color: black;
+	font-size: 62.3%;
+}
+
+fieldset {
+	border: dotted 1px gray;
+}
+
+.ui-widget-content {
+	background-image: none;
+}
+
+.logo {
+	display: block;
+	height: 32px;
+	padding-left: 32px;
+	background-image: url("apptrack-w.png");
+	background-repeat: no-repeat;
+	background-position: left center;
+	font-size: 16px;
+}
+
+.tag {
+	padding: 1px;
+}
+
+.tracking {
+	padding: 8px;
+	margin: 8px;
+	border: dotted 1px gray;
+}
+
+.tracking-attributes {
+	display: none;
+}
+
+.tracking-tracks {
+	display: none;
+}
+
+.tracks {
+	padding-left: 24px;
+	display: none;
+}
+
+.progress {
+	display: inline-block;
+	width: 60px;
+	line-height: 6px;
+	height: 6px;
+	padding: 0;
+	margin: 3px;
+}
+
+.progress .progress-bar {
+	padding: 0;
+	margin: 0;
+	display: inline-block;
+	line-height: 6px;
+	height: 6px;
+	width: 0%;
+}
+
+.progress,.progress-bar {
+	border: none !important;
+}
+
+.progress.ui-state-default {
+	background: #CCCCCC;
+}
+
+.progress .ui-state-active {
+	background: #EE0000;
+}
+
+.progress .ui-state-hover {
+	background: #0000EE;
+}
+
+#timeline {
+	display: block;
+	position: relative;
+	overflow: auto;
+	width: 100%;
+	height: 480px;
+	border: solid 1px gray;
+	background: url('grid.png')
+}
+.timeline-item {
+	display: block;
+	background: gray;
+	position: absolute;
+	overflow: hidden;
+	border: solid 1px white;
+}
+
+.action {
+	cursor: pointer;
+	display: inline-block;
+	margin: 1px;
+	padding: 1px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+</style>
+
+<script type="text/javascript">
+		
+		function sortKeys( obj, fn ){
+			var keys = [];
+			for ( var k in obj ) {
+				keys.push( k );
+			}
+			keys.sort( fn );
+			return keys;
+		}
+		
+		function sortValues( obj, fn ){
+			var values = [];
+			for ( var k in obj ) {
+				values.push( obj[k] );
+			}
+			values.sort( fn );
+			return values;
+		}
+		
+		function stringMillis( ms ){
+			
+			var str = [];
+			
+			if ( ms == -1 ) {
+				
+				str.push('Running');
+				
+			} else if ( ms > 0 ) {
+				
+				var s = (ms / 1000).toFixed(2);
+				var m = (s / 60).toFixed(2);
+				var h = (m / 60).toFixed(2);
+				var d = (h / 24).toFixed(2);
+				
+				if (d > 1) { str.push(d + 'd'); }
+				if (h > 1) { str.push(h + 'h'); }
+				if (m > 1) { str.push(m + 'm'); }
+				if (s > 1) { str.push(s + 's'); }
+				else if (ms > 1) { str.push(ms + 'ms'); }
+			}
+			
+			if (str.length == 0) {
+				str.push(ms + 'ms');
+			}
+			return str.join(', ');
+		}
+
+		function formatTime( ms ){
+			var str = [];
+			if ( ms == -1 ) {
+				str.push('Running');
+			} else if ( ms > 0 ) {
+				var d = new Date(ms);
+				var h = d.getHours();
+				var m = d.getMinutes();
+				var s = d.getSeconds();
+				return (h>9?h:'0'+h)+':'+(m>9?m:'0'+m)+':'+(s>9?s:'0'+s);
+			}
+			return '';
+		}
+		
+		/*
+		 * Tag Index.
+		 */
+		function Tags( label ){
+			this.map = {};
+		}
+		Tags.prototype = {
+			add: function( entry, key ){
+				if (this.excludes) {
+					for (var i = 0; i < this.excludes.length; i++) {
+						if ( entry.indexOf( this.excludes[i] ) == 0 ) {
+							return;
+						}
+					}
+				}
+				var keys = ( this.map[ entry ] || ( this.map[ entry ] = [] ) );
+				if ( keys.indexOf( key ) == -1 ) {
+					keys.push( key );
+				}
+			}
+		};
+
+		function TrackingSortByBeginTime(a, b){
+			if (a.beginTime == a.beginTime) {
+				return 0;
+			}
+			if (a.beginTime > a.beginTime) {
+				return 1;
+			}
+			return -1;
+		}
+		
+		var Jilotrack = {
+			
+			url: 'http://127.0.0.1:8080/jilotracktest/jilotrack',
+			
+			json: function( uri, param, options ){
+				return $.ajax($.extend({
+					url: ( this.url + uri ),
+					data: param,
+					dataType: 'jsonp',
+					context: this
+				}, options || {}));
+			},
+			
+			setActiveTab: function( tab ){
+				var index = 0;
+				var links = $( '#tabs ul a' );
+				for (var i = 0; i < links.length; i++) {
+					if (links[i].href.indexOf(tab) != -1) {
+						index = i;
+					}
+				}
+				$('#tabs').tabs('option', 'active', index);
+			},
+			
+			getElementId: function( trackingId, trackId ){
+				return ('tracking-' + trackingId + ( typeof trackId != 'undefined' ? '-track-' + trackId : '' )).replace(/\./g,'_');
+			},
+			
+			updateTrackings: function(){
+				
+				return this.json('/list/tracking').done(function( result ){
+					
+					var tags = new Tags( 'All' );
+					var trackings = result.trackings || {};
+					
+					tags.excludes = [
+						'Request.Param.',
+						'Request.Header.',
+						'Request.Session.CreationTime',
+						'Request.Session.LastAccessedTime',
+						'Request.Session.MaxInactiveInterval',
+						'Request.Session.isNew',
+						'Request.RemotePort',
+						'Request.QueryString',
+						'Request.RequestURL',
+						'Request.ServletPath',
+						'Request.PathTranslated',
+						'Request.PathInfo',
+						'Request.Method',
+						'Thread.id',
+						'Thread.priority'
+					];
+					
+					this.tags = tags;
+					this.trackings = trackings;
+					
+					for ( var id in trackings ) {
+						
+						var tracking = trackings[id];
+						
+						tags.add( 'All', tracking.id );
+						
+						for ( var tag in tracking.tags ) {
+							tags.add( tag + '=' + tracking.tags[ tag ], tracking.id );
+						}
+					}
+					
+					this.renderTags( tags );
+					this.renderTimeline( trackings );
+					this.renderTrackings( trackings );
+				});
+			},
+			
+			updateTrackChildren: function( button, trackingId, parentIndex ){
+				
+				var $button = $( '.ui-icon', button );
+				
+				if ( $button.hasClass('ui-icon-minus') ) {
+					
+					$button.removeClass( 'ui-icon-minus' );
+					$button.addClass( 'ui-icon-plus' );
+					
+					$( '#tracks-' + this.getElementId( trackingId, parentIndex ) ).hide( ).empty( );
+					
+				} else {
+					
+					$button.removeClass( 'ui-icon-plus' );
+					$button.addClass( 'ui-icon-minus' );
+					
+					this.json('/list/track', { tracking: trackingId, parent: parentIndex }).done(function( tracks ){
+						
+						var $container = $( '#tracks-' + this.getElementId( trackingId, parentIndex ) ).empty( );
+						
+						for ( var t in tracks ) {
+							$container.append( this.createTrack( trackingId, tracks[t] ) );
+						}
+						$container.show( );
+					});
+				}
+			},
+
+			
+			renderTags: function( tags ){
+				
+				var $parent = $('#tab-tags').empty();
+				
+				var keys = sortKeys( tags.map );
+				
+				for ( var i = 0; i < keys.length; i++ ) {
+					
+					var tagKeys = tags.map[ keys[i] ];
+					
+					var $tag = $( '<div class="tag"/>' )
+						.append( '<span class="tag-text">' + keys[i] + '</span>' )
+						.append(
+							'<span class="action ui-corner-all ui-state-default" onclick="Jilotrack.showByTag(\'' + keys[i] + '\');">'+
+								'<span class="ui-icon ui-icon-extlink left"></span>'+
+								'<span class="action-text">(' + tagKeys.length + ')</span>'+
+							'</span>'
+						)
+						.appendTo( $parent );
+				}
+			},
+			
+			renderTimeline: function( trackings ){
+				
+				var $parent = $('#timeline').empty();
+				
+				var beginTimeline = -1;
+				var endTimeline = -1;
+				var range = 1000; // 1 segundo.
+
+				var values = sortValues( trackings, TrackingSortByBeginTime );
+				
+				for ( var i = 0; i < values.length; i++ ) {
+					
+					var tracking = values[ i ];
+					var begin = tracking.beginTime;
+					var end = tracking.endTime;
+					
+					if (beginTimeline == -1) {
+						beginTimeline = begin;
+					} else {
+						beginTimeline = Math.min(beginTimeline, begin);
+					}
+					
+					if (endTimeline == -1) {
+						endTimeline = end;
+					} else {
+						endTimeline = Math.max(endTimeline, end);
+					}
+				}
+
+				console.log(values);
+				
+				for ( var i = 0; i < values.length; i++ ) {
+					
+					var tracking = values[ i ];
+					
+					var begin = tracking.beginTime;
+					var end = Math.max(tracking.endTime, begin + range);
+					
+					var secondPixelScale = 8; // 1000 ms = 16 pixels
+					
+					var width = (end - begin) / range;
+					var height = 1;
+					
+					var x = (begin - beginTimeline) / range;
+					
+					console.log( 'endTime:'+tracking.endTime, 'begin:'+begin, 'end:'+end, 'w:'+width, 'h:'+height, 'x:'+x, 'y:'+i );
+
+					var info = [ tracking.tags['Request.RequestURI'] || tracking.tags['Thread.name'] || tracking.key ];
+					
+					info.push( 'Begin: ' + formatTime(tracking.beginTime) + ' - End: ' + formatTime(tracking.endTime) );
+					info.push( tracking.id );
+					
+					$('<span class="timeline-item '+ (tracking.endTime == -1 ? 'running' : '') +'" onclick="Jilotrack.showTracking(\''+ tracking.id +'\')"/>')
+						.attr('id', 'time-' + this.getElementId( tracking.id ) )
+						.css({ /* -2 px of border */
+							width: ( (width * secondPixelScale)-2 ).toFixed(0) + 'px', 
+							height: ( (height * secondPixelScale)-2 ).toFixed(0) + 'px', 
+							left: ( (x * secondPixelScale)-2 ).toFixed(0) + 'px', 
+							top: ( (i * secondPixelScale)-2 ).toFixed(0) + 'px'
+						})
+						.attr( 'title', info.join('\n') )
+						.appendTo( $parent );
+				}
+			},
+			
+			renderTrackings: function( trackings ){
+				
+				var $parent = $('#tab-trackings').empty();
+				
+				var keys = sortKeys( trackings );
+				
+				for ( var i = 0; i < keys.length; i++ ) {
+					
+					var tracking = trackings[ keys[ i ] ];
+					
+					var $tracking = $( '<div id="' + this.getElementId( tracking.id ) + '" class="tracking"/>' )
+						.append( '<span>' + tracking.key + ' - ' + ( tracking.tags['Request.RequestURI'] || tracking.tags['Thread.name'] ) + '</span>' )
+						.append(
+							'<span class="action ui-corner-all ui-state-default" onclick="$(this).parent().children(\'.tracking-attributes\').toggle();">'+
+								'<span class="ui-icon ui-icon-script left"></span>'+
+								'<span class="action-text">(Attributes)</span>'+
+							'</span>'
+						).append(
+							'<span class="action ui-corner-all ui-state-default" onclick="$(this).parent().children(\'.tracking-tracks\').toggle();">'+
+								'<span class="ui-icon ui-icon-video left"></span>'+
+								'<span class="action-text">(Tracks)</span>'+
+							'</span>'
+						);
+					
+					var attributes = [];
+					for ( var tag in tracking.tags ) {
+						attributes.push( '<div>' + tag + ' = ' + tracking.tags[ tag ] + '</div>' );
+					}
+					attributes.sort();
+					
+					$('<fieldset class="tracking-attributes" />')
+						.append('<legend>Attributes</legend>')
+						.append( attributes.join('') )
+						.appendTo( $tracking );
+					
+					$('<fieldset class="tracking-tracks" />')
+						.append('<legend>Tracks</legend>')
+						.append( this.createTrack( tracking.id, tracking.root ) )
+						.appendTo( $tracking );
+					
+					$tracking.appendTo( $parent );
+				}
+			},
+			
+			createTrack: function( trackingId, track ){
+
+				var allTracks = ( this.allTracks || ( this.allTracks = {} ) );
+				
+				var tracks = ( allTracks[ trackingId ] || ( allTracks[ trackingId ] = {} ) );
+				
+				tracks[ track.index ] = track;
+				
+				var parent = tracks[ track.parent ];
+				
+				var $track = $( '<div id="' + this.getElementId( trackingId, track.id ) + '" class="track"/>' );
+				
+				var $bar = $( '<span class="track-progress ui-state-default"></span>' );
+				
+				if ( track.time != -1 ) {
+					if ( parent && parent.time != -1 ) {
+						$track.append( this.createBar( (track.time / parent.time).toFixed(2) * 100 ) );
+					} else {
+						$track.append( this.createBar( 100 ) );
+					}
+				} else {
+					$track.append( this.createBar( -1 ) );
+				}
+				
+				$track.append( '<span class="track-key">'+ track.key + ' (' + stringMillis( track.time ) + ')</span>' );
+				
+				if ( track.children.length > 0 ) {
+					
+					$track.append(
+						'<span class="action ui-corner-all ui-state-default" onclick="Jilotrack.updateTrackChildren(this, \''+ trackingId +'\','+ track.index +')">'+
+							'<span class="ui-icon ui-icon-plus left"></span>'+
+							'<span class="action-text">(' + track.children.length + ')</span>'+
+						'</span>'
+					).append( '<div id="tracks-'+ this.getElementId( trackingId, track.index ) +'" class="tracks" />' );
+				}
+				
+				return $track;
+			},
+			
+			createBar: function( percent ){
+				
+				var $bar = $( '<span class="progress ui-state-default"></span>' );
+				
+				if ( percent != -1 ) {
+					$bar.append('<span class="progress-bar ui-state-hover" style="width:'+ percent +'%"/>');
+				} else {
+					$bar.append('<span class="progress-bar ui-state-active" style="width:100%"/>');
+				}
+				
+				return $bar;
+			},
+			
+			showByTag: function( tag ){
+				
+				$( '.tracking' ).hide( );
+				$( '.timeline-item' ).hide( );
+				
+				var ids = this.tags.map[ tag ];
+				
+				if ( ids ) {
+					for ( var i  = 0; i < ids.length; i++ ) {
+						$( '#' + this.getElementId( ids[i] ) ).show( );
+						$( '#time-' + this.getElementId( ids[i] ) ).show( );
+					}
+				}
+				
+				$('#tabs > ul a[href=#tab-timeline]').html('Timeline (' + tag + ')');
+				$('#tabs > ul a[href=#tab-trackings]').html('Trackings (' + tag + ')');
+				
+				this.setActiveTab( "#tab-trackings" );
+			},
+			
+			showTracking: function( ){
+				
+				$( '.tracking' ).hide( );
+				
+				for ( var i  = 0; i < arguments.length; i++ ) {
+					$( '#' + this.getElementId( arguments[i] ) ).show( );
+				}
+				
+				$('#tabs > ul a[href=#tab-trackings]').html('Trackings');
+				
+				this.setActiveTab( "#tab-trackings" );
+			}
+		};
+		
+		$(function(){
+			
+			$( "#tabs" ).tabs({ });
+			
+			Jilotrack.updateTrackings();
+		});
+		
+		</script>
+
+</head>
+<body>
+	
+	<span class="logo"></span>
+	
+	<div id="tabs" class="ui-widget ui-widget-content ui-corner-all">
+		<ul>
+			<li><a href="#tab-tags">Tags</a></li>
+			<li><a href="#tab-trackings">Trackings</a></li>
+			<li><a href="#tab-timeline">Timeline</a></li>
+		</ul>
+		<div id="tab-tags"></div>
+		<div id="tab-trackings"></div>
+		<div id="tab-timeline">
+			<div id="timeline"></div>
+		</div>
+	</div>
+	
+</body>
+</html>

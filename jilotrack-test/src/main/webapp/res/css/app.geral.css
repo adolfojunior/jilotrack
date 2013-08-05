@@ -1,0 +1,40 @@
+/* Estilos especificos da aplicacao. Deve-se habilitar sua renderizacaoo no web.xml, se for usado */
+   
+div.home-subtitulo{
+ font-size: 150%;
+   line-height: 120%;
+}
+div.home-subtopico {
+  padding-top: 5px;
+}
+div.home-subtopico-esq {
+ font-size: 200%;
+}
+div.home-subtopico-dir {
+   font-size: 150%;
+   line-height: 130%;
+}
+div.home-subtopico-dir a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+div.home-subtitulo-rodape {
+font-size: 150%;
+}
+
+a.plc-botao-quiosque{
+vertical-align: middle;
+padding-bottom: 10px;
+border: thin;
+border-style: solid;
+cursor: pointer;
+}
+
+a.plc-botao-quiosque img{
+margin-right: 5px;
+}
+
+a.plc-botao-quiosque div{
+float: left;
+font-size: 150%;
+}

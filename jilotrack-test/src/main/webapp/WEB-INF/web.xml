@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+ <display-name>jilotrack-test</display-name>
+ <distributable/>
+ <!-- [INSERT FRAGMENT HERE] 
+
+		Parâmetro para restaurar visualizações não encontradas na sessão.Pode
+		ter comportamentos adversos considerando que é uma nova visualização.
+		Evita que ocorra ViewExpiredException.
+	-->
+ <context-param>
+  <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <!-- Parametros para verificação de esquema no startup 
+
+		<context-param>
+		<description>Ativa/Desativa a verificação de Esquema automática no
+		Startup</description> <param-name>verificaEsquema</param-name>
+		<param-value>S</param-value> </context-param>
+	-->
+ <context-param>
+  <param-name>com.sun.faces.expressionFactory</param-name>
+  <param-value>org.apache.el.ExpressionFactoryImpl</param-value>
+ </context-param>
+ <context-param>
+  <param-name>facelets.DEVELOPMENT</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>javax.faces.FACELETS_VIEW_MAPPINGS</param-name>
+  <param-value>*.xhtml;/n/*;/l/*</param-value>
+ </context-param>
+ <context-param>
+  <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+  <param-value>server</param-value>
+ </context-param>
+ <context-param>
+  <description>D-Desenvolvimento, T-Teste, P-Producao.</description>
+  <param-name>modoExecucao</param-name>
+  <param-value>D</param-value>
+ </context-param>
+ <context-param>
+  <param-name>org.apache.myfaces.trinidad.CACHE_VIEW_ROOT</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>org.apache.myfaces.trinidad.DEBUG_JAVASCRIPT</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>org.apache.myfaces.trinidad.resource.DEBUG</param-name>
+  <param-value>false</param-value>
+ </context-param>
+ <!-- 
+		Temporary internal flag to set to enabled and test Optimized PPR 
+		https://issues.apache.org/jira/browse/TRINIDAD-1368
+		Set false for Production mode
+	-->
+ <context-param>
+  <param-name>org.apache.myfaces.trinidadinternal.ENABLE_PPR_OPTIMIZATION</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>resteasy.resource.method-interceptors</param-name>
+  <param-value>org.jboss.resteasy.core.ResourceMethodSecurityInterceptor</param-value>
+ </context-param>
+ <!-- Parametros para auto complete e rest -->
+ <context-param>
+  <param-name>resteasy.scan</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>resteasy.servlet.mapping.prefix</param-name>
+  <param-value>/soa</param-value>
+ </context-param>
+ <filter>
+  <description>Coloca o padrão "utf-8" no request, para o caso da maioria das páginas</description>
+  <filter-name>PlcMasterFilter</filter-name>
+  <filter-class>com.powerlogic.jcompany.controller.filter.PlcMasterFilter</filter-class>
+ </filter>
+ <filter>
+  <filter-name>PlcClienteFilter</filter-name>
+  <filter-class>com.powerlogic.jcompany.controller.filter.PlcCacheFilter</filter-class>
+  <init-param>
+   <param-name>Cache-Control</param-name>
+   <param-value>max-age=3600</param-value>
+  </init-param>
+ </filter>
+ <filter>
+  <filter-name>PlcTrinidadFilter</filter-name>
+  <filter-class>com.powerlogic.jcompany.controller.jsf.filter.PlcTrinidadFilter</filter-class>
+ </filter>
+ <filter-mapping>
+  <filter-name>PlcClienteFilter</filter-name>
+  <url-pattern>/res-plc/css/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcClienteFilter</filter-name>
+  <url-pattern>/res/css/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcClienteFilter</filter-name>
+  <url-pattern>/res-plc/javascript/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcClienteFilter</filter-name>
+  <url-pattern>/res/javascript/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcClienteFilter</filter-name>
+  <url-pattern>/res-plc/midia/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcClienteFilter</filter-name>
+  <url-pattern>/res/midia/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcMasterFilter</filter-name>
+  <url-pattern>/res-plc/doc/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcMasterFilter</filter-name>
+  <servlet-name>FacesServlet</servlet-name>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcMasterFilter</filter-name>
+  <servlet-name>Resteasy</servlet-name>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>PlcTrinidadFilter</filter-name>
+  <!--
+			This assumes that the FacesServlet has been registered under the name
+			"faces"
+		-->
+  <servlet-name>FacesServlet</servlet-name>
+ </filter-mapping>
+ <!-- Listerner Reasteasy: auto complete e rest 
+ Verificar: Se for instalado depois do Listener Weld, acontece estouro de memoria! -->
+ <listener>
+ 	<listener-class>br.com.cubekode.jilotrack.servlet.TrackerServletListener</listener-class>
+ </listener>
+ <listener>
+  <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+ </listener>
+ <listener>
+  <listener-class>org.jboss.weld.el.WeldELContextListener</listener-class>
+ </listener>
+ <!-- Listener JCDI / Weld (RI) 
+
+		Deve vir antes de AppServletContextListener para que o "bootstrap" da
+		aplicação jCompany possa usar JCDI
+	
+ Parametros para auto complete e rest -->
+ <listener>
+  <listener-class>com.powerlogic.jcompany.controller.listener.PlcWeldListener</listener-class>
+ </listener>
+ <listener>
+  <listener-class>br.com.cubekode.jilotracktest.controller.listener.AppServletContextListener</listener-class>
+ </listener>
+ <listener>
+  <listener-class>br.com.cubekode.jilotracktest.controller.listener.AppHttpSessionListener</listener-class>
+ </listener>
+ <servlet>
+  <servlet-name>Resteasy</servlet-name>
+  <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+ </servlet>
+ <servlet>
+  <servlet-name>FacesServlet</servlet-name>
+  <servlet-class>javax.faces.webapp.FacesServlet</servlet-class> 
+  <load-on-startup>1</load-on-startup>
+ </servlet>
+ <servlet>
+  <servlet-name>PlcTrinidadResourceServlet</servlet-name>
+  <servlet-class>com.powerlogic.jcompany.controller.jsf.servlet.PlcTrinidadResourceServlet</servlet-class>
+ </servlet>
+ <servlet>
+  <servlet-name>PlcLog4jConfigurationServlet</servlet-name>
+  <servlet-class>com.powerlogic.jcompany.controller.servlet.PlcLog4jConfigurationServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>PlcLog4jConfigurationServlet</servlet-name>
+  <url-pattern>/res-plc/log4j</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>FacesServlet</servlet-name>
+  <url-pattern>/f/*</url-pattern>
+ </servlet-mapping>
+ <!-- Parametros para auto complete e rest -->
+ <servlet-mapping>
+  <servlet-name>Resteasy</servlet-name>
+  <url-pattern>/soa/*</url-pattern>
+ </servlet-mapping>
+ <!-- This cannot be configured currently -->
+ <servlet-mapping>
+  <servlet-name>PlcTrinidadResourceServlet</servlet-name>
+  <url-pattern>/adf/*</url-pattern>
+ </servlet-mapping>
+ <session-config>
+  <session-timeout>30</session-timeout>
+ </session-config>
+ <welcome-file-list>
+  <welcome-file>f/inicial.xhtml</welcome-file>
+ </welcome-file-list>
+ <error-page>
+  <error-code>400</error-code>
+  <location>/res-plc/erros/erro400.html</location>
+ </error-page>
+ <error-page>
+  <error-code>401</error-code>
+  <location>/res-plc/erros/erro401.html</location>
+ </error-page>
+ <error-page>
+  <error-code>403</error-code>
+  <location>/res-plc/erros/erro403.html</location>
+ </error-page>
+ <error-page>
+  <error-code>404</error-code>
+  <location>/res-plc/erros/erro404.html</location>
+ </error-page>
+ <error-page>
+  <error-code>408</error-code>
+  <location>/res-plc/erros/erro408.html</location>
+ </error-page>
+ <error-page>
+  <error-code>500</error-code>
+  <location>/res-plc/erros/erro500.html</location>
+ </error-page>
+ <error-page>
+  <error-code>503</error-code>
+  <location>/res-plc/erros/erro503.html</location>
+ </error-page>
+ <error-page>
+  <error-code>597</error-code>
+  <location>/res-plc/erros/erro597.html</location>
+ </error-page>
+ <error-page>
+  <error-code>599</error-code>
+  <location>/res-plc/erros/erro599.html</location>
+ </error-page>
+ <security-constraint>
+  <display-name>Restrição de Página Inicial</display-name>
+  <web-resource-collection>
+   <web-resource-name>Todas as Páginas</web-resource-name>
+   <url-pattern>/f/*</url-pattern>
+   <url-pattern>/soa/*</url-pattern>
+   <url-pattern>/res-plc/jsps/geralUsuOnlinePlc.jsp</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>Membros</role-name>
+   <role-name>Demo</role-name>
+   <role-name>Administrador</role-name>
+  </auth-constraint>
+ </security-constraint>
+ <security-constraint>
+  <display-name>Acessos do Menu Área Técnica</display-name>
+  <web-resource-collection>
+   <web-resource-name>Geração de DDL</web-resource-name>
+   <url-pattern>/f/l/esquema</url-pattern>
+   <url-pattern>/f/l/menuDinamicoPlc</url-pattern>
+  </web-resource-collection>
+  <web-resource-collection>
+   <web-resource-name>Log4j</web-resource-name>
+   <url-pattern>/res-plc/log4j</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <description>Área Técnica</description>
+   <role-name>AreaTecnica</role-name>
+  </auth-constraint>
+ </security-constraint>
+ <security-constraint>
+  <display-name>Url's Erro</display-name>
+  <web-resource-collection>
+   <web-resource-name>Url's Erro</web-resource-name>
+   <url-pattern>/res-plc/erros/erro400.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro401.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro403.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro404.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro408.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro500.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro503.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro597.html</url-pattern>
+   <url-pattern>/res-plc/erros/erro599.html</url-pattern>
+  </web-resource-collection>
+ </security-constraint>
+ <login-config>
+  <auth-method>FORM</auth-method>
+  <realm-name>default</realm-name>
+  <form-login-config>
+   <form-login-page>/res-plc/login/loginPlc.html</form-login-page>
+   <form-error-page>/res-plc/login/loginErroPlc.html</form-error-page>
+  </form-login-config>
+ </login-config>
+ <security-role>
+  <role-name>Suporte</role-name>
+ </security-role>
+ <security-role>
+  <description>Area de RH</description>
+  <role-name>RH</role-name>
+ </security-role>
+ <security-role>
+  <role-name>Administrador</role-name>
+ </security-role>
+ <security-role>
+  <description>Usuários para demonstração</description>
+  <role-name>Demo</role-name>
+ </security-role>
+ <security-role>
+  <description>Todos os usuários com Login</description>
+  <role-name>Membros</role-name>
+ </security-role>
+ <security-role>
+  <description>Area Técnica</description>
+  <role-name>AreaTecnica</role-name>
+ </security-role>
+ <!-- JCDI / Weld (RI) -->
+ <resource-env-ref>
+  <description>Object factory for the CDI Bean Manager</description>
+  <resource-env-ref-name>BeanManager</resource-env-ref-name>
+  <resource-env-ref-type>javax.enterprise.inject.spi.BeanManager</resource-env-ref-type>
+ </resource-env-ref>
+ <resource-ref>
+  <description>Endereço JNDI para pegar o Pool de Conexões com o SGBD. Este
+			pool deve ser configurado no Application Server e registrado
+			com o endereço acima: jdbc/jilotracktest</description>
+  <res-ref-name>jdbc/jilotracktest</res-ref-name>
+  <res-type>javax.sql.DataSource</res-type>
+  <res-auth>Container</res-auth>
+  <res-sharing-scope>Shareable</res-sharing-scope>
+ </resource-ref>
+</web-app>

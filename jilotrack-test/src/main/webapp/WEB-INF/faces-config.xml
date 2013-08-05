@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config 
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/fcls/public/loginDesconectaPlc.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<application>
+		<resource-bundle>
+			<base-name>ApplicationResources</base-name>
+			<var>msg</var>
+		</resource-bundle>
+		<message-bundle>ApplicationResources</message-bundle>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+			<supported-locale>pt_BR</supported-locale>
+		</locale-config>
+	</application>
+
+	<lifecycle>
+		<phase-listener>br.com.cubekode.jilotracktest.controller.listener.AppPhaseListener</phase-listener>
+	</lifecycle>
+ 
+
+</faces-config>
